@@ -1,14 +1,17 @@
 package server
+
 import (
-	"go_pill/pkg/headers-request"
-	"go_pill/pkg/html-request"
-	"go_pill/pkg/json-request"
-	textreq "go_pill/pkg/text-request"
-	"go_pill/pkg/xml-request"
+	"go/pkg/headers"
+	"go/pkg/html"
+	"go/pkg/json"
+	textreq "go/pkg/text"
+	"go/pkg/xml"
 	"log"
 	"net/http"
+
 	"github.com/gorilla/mux"
 )
+
 //Routing comment: function for routing
 func Routing() {
 	router := mux.NewRouter()
@@ -17,6 +20,9 @@ func Routing() {
 	router.HandleFunc("/xml", xml.GetXML).Methods("GET")
 	router.HandleFunc("/header", headers.GetHeader).Methods("GET")
 	router.HandleFunc("/txt", textreq.GetTXT).Methods("GET")
+	fs := http.FileServer(http.Dir("./assets/"))
+	http.Handle("/img/", http.StripPrefix("/img/", fs))
+
 	http.Handle("/", router)
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
