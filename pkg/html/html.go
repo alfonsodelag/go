@@ -1,4 +1,4 @@
-package main
+package html
 
 import (
 	"html/template"
@@ -12,11 +12,12 @@ type Profile struct {
 }
 
 func main() {
-	http.HandleFunc("/", foo)
+	http.HandleFunc("/", Foo)
 	http.ListenAndServe(":3000", nil)
 }
 
-func foo(w http.ResponseWriter, r *http.Request) {
+//Foo function
+func Foo(w http.ResponseWriter, r *http.Request) {
 	profile := Profile{"Alex", []string{"snowboarding", "programming"}}
 
 	fp := path.Join("templates", "index.html")
